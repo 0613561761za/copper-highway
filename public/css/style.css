@@ -24,11 +24,11 @@ h4 {font-size: 1.4rem;}
 h5 {font-size: 1.2rem;}
 h6 {font-size: 1rem;}
 
-ul {
-    padding-left: 0;
+ul, ol {
+    padding-left: 20px;
 }
 
-ul li  {
+ul li, ol li  {
     list-style-position:inside;
 }
 
@@ -48,7 +48,7 @@ p {margin-bottom: 15px;}
 a {text-decoration: none;}
 a:hover {text-decoration: underline;}
 
-input {
+input, select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -65,11 +65,9 @@ input[type="text"], input[type="password"], input[type="email"] {
     width: 200px;
 }
 
-table {
-    display: inline-block;
-}
+input.short {width: 100px;}
 
-td {text-align: right;}
+select {width: 150px;}
 
 div#top-nav{
     padding: 10px 0px;
@@ -81,6 +79,7 @@ div#top-nav{
 
 div#title {
     font-size: 2.5rem;
+    font-variant: small-caps;
 }
 
 div#navigation {
@@ -105,6 +104,69 @@ p#intro {
 
 div#feedback {
     color: #F43;
+    text-align: center;
+    margin-top: 10px;
+}
+
+fieldset {
+    border: 1px solid #333;
+    border-radius: 3px;
+    padding: 5px 15px;
+    background-color: #f4f6f9;
+    margin: 15px 0px 25px 0px;
+}
+
+legend {
+    margin: 0px 10px;
+    text-shadow: 2px 2px 3px #333;
+}
+
+.badger {
+    display: inline;
+    font-size: 0.6rem;
+    font-family: monospace;
+}
+
+.badger span {
+    padding: 3px;
+    margin: 0;
+}
+
+.badger span:nth-child(1) {
+    background-color: #333;
+    color: #FEFEFE;
+}
+
+.badger .green {background-color: #7C2;}
+.badger .amber {background-color: #f4b642;}
+.badger .red {background-color: #ff5959;}
+
+code.block {
+    background-color: #f4f6f9;
+    border-radius: 2px;
+    font-size: 0.8rem;
+    padding: 5px;
+}
+
+div#admin {
+    width: 90%;
+    margin: 25px auto;
+    padding: 10px;
+}
+
+table#admin {
+    font-family: monospace;
+    font-size: 0.8rem;
+    width: 100%;
+    border-collapse: collapse;
 }
 
 
+table#admin tbody tr:nth-child(odd) {background-color: #f4f6f9;}
+table#admin td, table#admin th {padding: 0px 5px;}
+
+table#admin thead tr {
+    background-color: #333;
+    color: #FEFEFE;
+    text-align: left;
+}

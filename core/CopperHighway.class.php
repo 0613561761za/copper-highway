@@ -16,6 +16,7 @@ spl_autoload_register(function($class) {
 
 class CopperHighway
 {
+    public $controller;
     public $view;
     public $db;
     
@@ -31,36 +32,167 @@ class CopperHighway
 
     private function main()
     {
-        Session::init();
-        
-        $this->view = new View();
-
         /* 
          * IMPORTANT:  This function is the doorman for user input,
          * that is, ALL user input should be cleaned by the Filter
          * class here before being passed to any other functions.
          */
-        
-        if ( empty($_POST) && !empty($_SERVER["QUERY_STRING"]) ) {
-            Filter::XSS($_SERVER["QUERY_STRING"]);
-            $this->view->render($_SERVER["QUERY_STRING"]);
-        } else {
+        Session::init();
+
+        $this->view = new View();
+
+        /* handle a request for / */
+        if ( empty($_POST) && empty($_SERVER["QUERY_STRING"]) ) {
             $this->view->render("home");
         }
-
+        
+        /* handle POST data */
         if ( !empty($_POST) ) {
             Filter::XSSArray($_POST);
             $this->handlePost($_POST);
+        }
+
+        /* handle links (sent as a GET request) */
+        if ( empty($_POST) && !empty($_SERVER["QUERY_STRING"]) ) {
+
+            Filter::XSS($_SERVER["QUERY_STRING"]);
+
+            switch ( $_SERVER["QUERY_STRING"] ) {
+
+            case "about":
+                $this->view->render("about");
+                break;
+
+            case "contribute":
+                if ( Authenticator::loggedIn() ) {
+                    $this->view->render("contribute");
+                } else {
+                    $this->view->render("home");
+                }
+                break;
+                
+            case "getting-started":
+                if ( Authenticator::loggedIn() ) {
+                    $this->view->render("getting-started");
+                } else {
+                    $this->view->render("home");
+                }
+                break;
+
+            case "admin-console":
+                if ( Authenticator::loggedIn() && Session::get("CLEARANCE") == 2 ) {
+                    $this->view->render("admin-console");
+                } else {
+                    $this->view->render("home");
+                }
+                break;
+                
+            case "account":
+                if ( Authenticator::loggedIn() ) {
+                    $this->view->render("userhome");
+                } else {
+                    $this->view->render("account");
+                }
+                break;
+
+            case "create-account":
+                if ( Authenticator::loggedIn() ) {
+                    $this->view->render("userhome");
+                } else {
+                    $this->view->render("create-account");
+                }
+                break;
+
+            case "forgot-password":
+                if ( Authenticator::loggedIn() ) {
+                    $this->view->render("userhome");
+                } else {
+                    $this->view->render("forgot-password");
+                }
+                break;
+
+            case "change-password":
+                if ( Authenticator::loggedIn() ) {
+                    $this->view->render("change-password");
+                } else {
+                    $this->view->render("home");
+                }
+                break;
+
+            case "delete-account":
+                if ( Authenticator::loggedIn() ) {
+                    $this->view->render("delete-account");
+                } else {
+                    $this->view->render("home");
+                }
+                break;                
+
+            case "logout":
+                if ( Authenticator::loggedIn() ) {
+                    Authenticator::logout();
+                    Session::set("FEEDBACK", "You have been logged out.");
+                }
+                $this->view->render("home");
+                break;
+                
+            default:
+                $this->view->render("home");
+            }
         }
     }
 
     private function handlePost(array $p)
     {
+
+        /* every POST request must have a valid CSRF token */
+        if ( empty($p["csrf"]) ) {
+            Log::write($username, 'Failed to process POST request: CSRF token was empty!', 'CSRF_ERROR');
+            die($this->view->showError('csrf'));
+        }
+        
+        if ( !CSRF::verifyToken($p["csrf"]) ) {
+            Log::write($username, 'Failed to process POST request: CSRF token verification failed!', 'CSRF_ERROR');
+            die($this->view->showError('csrf'));
+        }
+        
+
         switch ( $p['referrer'] ) {
 
+        case "create-cert":
+
+            if ( !Authenticator::loggedIn() ) {
+                $this->view->showError("403");
+                break;
+            }
+
+            SSL::certWizard(Session::get("USERNAME"), $p["password"]);
+            $this->view->render("userhome");
+            break;
+
+        case "update-record":
+
+            if ( !Authenticator::loggedIn() || Session::get("CLEARANCE") != 2) {
+                $this->view->showError("403");
+                break;
+            }
+
+            $uid = $p["uid"];
+            $field = $p["field"];
+            $value = $p["value"] ? $p["value"] : 0;
+
+            $sql = "UPDATE users SET $field='$value' WHERE uid='$uid'";
+
+            if ( !DatabaseFactory::quickQuery($sql) ) {
+                Session::set("FEEDBACK", "Error: couldn't commit changes to the database!");
+            }
+
+            $this->view->render("admin-console");
+            
+            break;
+            
         case "create-account":
             
-            $new_user_data = array_intersect_key($_POST, array(
+            $new_user_data = array_intersect_key($p, array(
                 "first-name" => "",
                 "last-name" => "",
                 "username" => "",
@@ -69,13 +201,93 @@ class CopperHighway
                 "password-repeat" => "",
                 "ref-code" => "")
             );
-            
+
             if ( Authenticator::registerNewUser($new_user_data) ) {
-                $this->view->render('account');
+                Authenticator::login($new_user_data['username']);
+                Session::set('FEEDBACK', 'Account created successfully.  You are now logged in.');
+                $this->view->render("userhome");
             } else {
-                $this->view->render('create-account');
+                $this->view->render("create-account");
+            }
+
+            break;
+
+        case "account":
+         
+            if ( Authenticator::checkCredentials($p["username"], $p["password"]) ) {
+                $clearance = Authenticator::getClearance($p["username"]);
+                Authenticator::login($p["username"], $clearance);
+                $this->view->render("userhome");
+            } else {
+                if ( !Session::get("FEEDBACK") ) {
+                    Session::set("FEEDBACK", "Invalid credentials!");
+                }
+                $this->view->render("account");
+            }
+            break;
+
+        case "forgot-password":
+
+            $username = $p["username"];
+            $email = $p["email"];
+            $temporary_password = Authenticator::randomPassword(12);
+            $password_hash = password_hash($temporary_password, PASSWORD_DEFAULT);
+            $temporary_password_expiration = (int) time() + 3600; /* 1 hour */
+            $sql = "UPDATE users SET password_hash='$password_hash', temporary_password_expiration='$temporary_password_expiration', temporary_password='$temporary_password' WHERE username='$username' AND email='$email'";
+            
+            if ( Authenticator::checkUserExists($username, $email) ) {
+
+                if ( DatabaseFactory::quickQuery($sql) ) {
+
+                    Log::write(Session::get("USERNAME"), "Password reset successfully for $username ($email)", "NOTICE");
+                    Session::set("FEEDBACK", "Password reset&mdash;check your e-mail.");
+                    $this->view->render("forgot-password");
+
+                } else {
+
+                    Log::write(Session::get("USERNAME"), "Password could not be reset for $username ($email): database could not be written to.", "ERROR");
+                    Session::set("FEEDBACK", "Your password could not be reset because of a system error.  Try again later.");
+                    $this->view->render("forgot-password");
+                }
+                
+            } else {
+                
+                Log::write(Session::get("USERNAME"), "Password could not be reset for $username ($email):  does not exist.", "ERROR");
+                Session::set("FEEDBACK", "That username and e-mail combination doesn't exists.");
+                $this->view->render("forgot-password");
             }
             
+            break;
+
+        case "change-password":
+
+            if ( !Authenticator::loggedIn() ) {
+                $this->view->showError("403");
+                break;
+            }
+            
+            if ( $p["password"] == $p["password-repeat"] ) {
+
+                $username = Session::get("USERNAME");
+                $password_hash = password_hash($p["password"], PASSWORD_DEFAULT);
+                $sql = "UPDATE users SET password_hash='$password_hash' WHERE username='$username'";
+
+                if ( !DatabaseFactory::quickQuery($sql) ) {
+                    Log::write($username, "Couldn't change password: database error.", "ERROR");
+                    Session::set("FEEDBACK", "Couldn't change password because of a weird system error");
+                    $this->view->render("change-password");
+                } else {
+                    Log::write($username, "Password changed for $username.", "SECURITY");
+                    Session::set("FEEDBACK", "Your password has been changed.");
+                    $this->view->render("userhome");             
+                }
+
+            } else {
+
+                Session::set("FEEDBACK", "Passwords don't match.");
+                $this->view->render("change-password");
+            }
+
             break;
         
         default:

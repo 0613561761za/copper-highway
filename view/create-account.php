@@ -13,7 +13,7 @@
 	<input type="text" name="ref-code" placeholder="Ref Code (Optional)"><br />
 	<input type="submit" value="Register">
     <input type="hidden" name="referrer" value="create-account">
-	<!-- CSRF!! -->
+	<input type="hidden" name="csrf" value="<?= CSRF::makeToken() ?>">
     </form>
     
     <p><a href="<?= $_SERVER["PHP_SELF"]; ?>?account">My Account</a></p>

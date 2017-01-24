@@ -26,18 +26,24 @@ class Authenticator
     public static function checkCredentials($username, $password)
     {
         $db = DatabaseFactory::getFactory()->getConnection();
-        Filter::XSS($username);
 
-        $sql = "SELECT password_hash FROM users WHERE username=:username LIMIT 1";
+        $sql = "SELECT password_hash, temporary_password, temporary_password_expiration FROM users WHERE username=:username LIMIT 1";
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':username', $username);
         $stmt->execute();
         $result = $stmt->fetchObject();
 
         if ($result) {
-            
+
             if (password_verify($password, $result->password_hash)) {
-                
+
+                if ( !empty($result->temporary_password) && (int) $result->temporary_password_expiration < time() ) {                
+
+                    Log::write($username, "Attempted login with expired temporary password by $username", "SECURITY");
+                    Session::set("FEEDBACK", "Your temporary password has expired, please reset it, login, and change it immediately.");
+                    return FALSE;
+                }
+                    
                 $time = time();
                 $sql = "UPDATE users SET last_logon='$time' WHERE username='$username'";
                 $db->query($sql);
@@ -73,7 +79,7 @@ class Authenticator
         $password = $n['password'];
         $password_repeat = $n['password-repeat'];
         $ref_code = array_key_exists('ref-code', $n) ? $n['ref-code'] : '';
-        
+
         /* 
          * Validate the input.  This is done client side, but that's
          * vulnerable to tampering by cheeky fucks.
@@ -97,7 +103,13 @@ class Authenticator
             return FALSE;
         }
 
-        if (empty($password) || empty($password_repeat) || ($password !== $password_repeat)) {
+        if ( self::checkUserExists($username, $email) ) {
+            Session::set('FEEDBACK', 'That username or email is unavailable.');
+            Log::write($username, '(CLIENT SIDE INPUT VALIDATION FAILURE) New user registration failed: username or e-mail already taken.', 'SECURITY');
+            return FALSE;
+        }
+
+        if ( empty($password) || empty($password_repeat) || ($password !== $password_repeat) ) {
             Session::set('FEEDBACK', 'Passwords do not match.');
             Log::write($username, '(CLIENT SIDE INPUT VALIDATION FAILURE) New user registration failed: passwords did not match or were empty.', 'SECURITY');
             return FALSE;
@@ -123,6 +135,7 @@ class Authenticator
             Log::write($username, 'New user (' . $username . ') registered successfully.', 'SECURITY');
             return TRUE;
         }
+        
         Log::write($username, 'New user registration failed becuase the data could not be committed to the database.', 'SECURITY');
         return FALSE;
     }
@@ -216,7 +229,7 @@ class Authenticator
         $sql = "SELECT * FROM users WHERE username='$username' AND email='$email' LIMIT 1";
         $result = $db->query($sql);
         $row = $result->fetch(PDO::FETCH_ASSOC);
-        if ($row && $row['id'] != '1') {
+        if ($row && $row["uid"] != 1) {  /* we don't want anyone to be able reset the root (UID 1) user */
             return TRUE;
         } else {
             return FALSE;

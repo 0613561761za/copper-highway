@@ -5,7 +5,7 @@
 	<input type="password" name="password" placeholder="password" required><br />
 	<input type="submit" value="Login">
         <input type="hidden" name="referrer" value="account">
-        <!-- CSRF!! -->
+        <input type="hidden" name="csrf" value="<?= CSRF::makeToken() ?>">
     </form>
     
     <p><a href="<?= $_SERVER["PHP_SELF"]; ?>?forgot-password">Forgot&nbsp;Password</a> | <a href="<?= $_SERVER["PHP_SELF"]; ?>?create-account">Create&nbsp;an&nbsp;Account</a></p>

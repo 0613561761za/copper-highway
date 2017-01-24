@@ -20,6 +20,8 @@
 		<span id="contribute"><a href="index.php?contribute">Contribute</a></span>
 		<?php } ?>
 
-		<span id="account"><a href="index.php?account"><?= Authenticator::loggedIn() ? Session::get('USERNAME') . "'s" : "My" ?>&nbsp;Account</a></span>
+                <span id="account"><a href="index.php?account"><?= Authenticator::loggedIn() ? ucfirst(strtolower(Session::get('USERNAME'))) . "'s" : "My" ?>&nbsp;Account</a></span>
 	    </div>
 	</div>
+    <div id="feedback"><?= Session::get('FEEDBACK') ? Session::get('FEEDBACK') : "" ?></div>
+

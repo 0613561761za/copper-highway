@@ -40,7 +40,7 @@ class DatabaseFactory
     public static function quickQuery($sql)
     {
 	$db = self::getFactory()->getConnection();
-	return $db->query($sql);
+    return $db->query($sql);
     }
 }
 
