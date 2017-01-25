@@ -21,6 +21,7 @@ class UserHome
     public $approved = 0;
     public $conf_path;
     public $cert_revoked;
+    public $has_conf = FALSE;
 
     public $badger_conf_color;
     public $badger_conf_text;
@@ -51,8 +52,10 @@ class UserHome
             $this->badger_conf_text = 'Not Found';
         } else if ( !empty($this->conf_path) ) {
             $this->badger_conf_color = 'green';
-            $this->badger_conf_text = '<a href="' . $_SERVER["PHP_SELF"] . '?download_configuration">Download</a>';
+            $this->badger_conf_text = '<a href="' . $_SERVER["PHP_SELF"] . '?download-configuration">Download</a>';
+            $this->has_conf = TRUE;
         }
+
 
         /* certificate badge */
         if ( !empty($this->cert_revoked) && $this->revoked == 1 ) {
@@ -67,10 +70,28 @@ class UserHome
         }
     }
 
+    public function getOpenVPNLink()
+    {
+        $u = $_SERVER["HTTP_USER_AGENT"];
+        
+        if ( preg_match('/windows|win/i', $u) ) {
+            return 'Download <a href="https://swupdate.openvpn.org/community/releases/openvpn-install-2.4.0-I601.exe" target="_blank">OpenVPN GUI for Windows</a>';
+        } else if ( preg_match('/mac/i', $u) && !preg_match('/iphone|ipod|ipad/i', $u) ) {
+            return 'Download <a href="https://tunnelblick.net/release/Tunnelblick_3.6.10_build_4760.dmg" target="_blank">OpenVPN for OSX</a>';
+        } else if ( preg_match('/linux|ubuntu/i', $u) && !preg_match('/android/i', $u) && !preg_match('/tizen/i', $u) ) {
+            return 'Run <code>sudo apt install network-manager-openvpn</code> <span class="italic">or</span> search <a href="https://www.google.com/#q=OpenVPN+client+linux" target="_blank">Google: OpenVPN client linux </a>';
+        } else if ( preg_match('/iphone|ipod|ipad/i', $u) ) {
+            return 'Download <a href="https://itunes.apple.com/us/app/openvpn-connect/id590379981?mt=8" target="_blank">OpenVPN for iOS</a>';
+        } else if ( preg_match('/android/i', $u) ) {
+            return 'Download <a href="https://play.google.com/store/apps/details?id=net.openvpn.openvpn&hl=en" target="_blank">OpenVPN for Android</a>';
+        } else {
+            return 'Search <a href="https://www.google.com/#q=OpenVPN+Client" target="_blank">Google: OpenVPN Client</a> (we couldn\'t detect your OS).';
+        }
+    }
+
     /* 
-     * This function prints data to the screen!!
-     * 
-     * Use appropriately
+     * I'm not sure why this is here.... it really should
+     * be in it's own class like AdminConsole.class.php.
      */
     public function getUserList()
     {

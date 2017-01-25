@@ -23,7 +23,7 @@ class CSRF
      */
     public static function makeToken()
     {
-        $csrf_token_lifetime = 60 * 10; // 10 MINUTES
+        $csrf_token_lifetime = 60 * 60; // 60 MINUTES
         $csrf_token_birth = Session::get('CSRF_TOKEN_BIRTH');
         $csrf_token = Session::get('CSRF_TOKEN');
 

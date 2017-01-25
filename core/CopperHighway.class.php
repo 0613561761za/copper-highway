@@ -86,6 +86,14 @@ class CopperHighway
                     $this->view->render("home");
                 }
                 break;
+
+            case "log":
+                if ( Authenticator::loggedIn() && Session::get("CLEARANCE") == 2 ) {
+                    $this->view->render("log");
+                } else {
+                    $this->view->render("home");
+                }
+                break;
                 
             case "account":
                 if ( Authenticator::loggedIn() ) {
@@ -126,6 +134,14 @@ class CopperHighway
                     $this->view->render("home");
                 }
                 break;                
+                
+            case "download-configuration":
+                if ( Authenticator::loggedIn() ) {
+                    include __DIR__ . "/download-configuration.php";
+                } else {
+                    $this->view->render("home");
+                }
+                break;                
 
             case "logout":
                 if ( Authenticator::loggedIn() ) {
@@ -146,12 +162,12 @@ class CopperHighway
 
         /* every POST request must have a valid CSRF token */
         if ( empty($p["csrf"]) ) {
-            Log::write($username, 'Failed to process POST request: CSRF token was empty!', 'CSRF_ERROR');
+            Log::write(Session::get("USERNAME"), 'Failed to process POST request: CSRF token was empty!', 'CSRF_ERROR');
             die($this->view->showError('csrf'));
         }
         
         if ( !CSRF::verifyToken($p["csrf"]) ) {
-            Log::write($username, 'Failed to process POST request: CSRF token verification failed!', 'CSRF_ERROR');
+            Log::write(Session::get("USERNAME"), 'Failed to process POST request: CSRF token verification failed!', 'CSRF_ERROR');
             die($this->view->showError('csrf'));
         }
         
@@ -165,8 +181,30 @@ class CopperHighway
                 break;
             }
 
-            SSL::certWizard(Session::get("USERNAME"), $p["password"]);
-            $this->view->render("userhome");
+            if ( !empty($p["password"]) && !empty($p["password-repeat"]) && $p["password"] == $p["password-repeat"] ) {
+
+                $username = Session::get("USERNAME");
+
+                if ( EasyRSA::certWizard($username, $p["password"]) ) {
+                   
+                    shell_exec("cd /home/git/Projects/copperhighway/ovpn/ && /home/git/Projects/copperhighway/ovpn/make_unified.sh " . $username . " 2>&1");
+                    $conf_path = "/ovpn/" . $username . ".ovpn";
+                    DatabaseFactory::quickQuery("UPDATE users SET conf_path='$conf_path' WHERE username='$username'");
+                    Session::set("FEEDBACK", "Certificate and configuration file generated!");
+                    Log::write($username, "certWizard: certificate and conf file created for $username", "NOTICE");
+                    $this->view->render("userhome");
+
+                } else {
+                    Session::set("FEEDBACK", "Couldn't generate your certificate or configuration file.  Try again later.");
+                    $this->view->render("userhome");
+                }
+                
+            } else {
+                Log::write(Session::get("USERNAME"), "Create certificate failed: passwords were empty or did not match", "NOTICE");
+                Session::set("FEEDBACK", "Your passwords did not match.");
+                $this->view->render("userhome");
+            }
+            
             break;
 
         case "update-record":

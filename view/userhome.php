@@ -18,7 +18,9 @@
 
 	    <p></p>
 
-	    <h6>Quick Start</h6>
+	    <?php if ( !$d->has_conf ) { ?>
+	    
+	    <h6>Create your Certificate</h6>
 	    <p class="note"><span class="italic">Tip: </span>You'll need to enter this password everytime you connect to the VPN service, so make sure it's something you'll remember.</p>
 	    <div>
 		<form action="<?= $_SERVER["PHP_SELF"]; ?>" method="POST">
@@ -29,6 +31,23 @@
 		    <input type="hidden" name="csrf" value="<?= CSRF::makeToken() ?>">
 		</form>
 	    </div>
+
+	    <?php } else if ( $d->has_conf ) { ?>
+
+		<h6>Get Connected!</h6>
+
+		<p class="note"><span class="italic">Congrats, you have a certificate and a configuration file!  Here's what you need to do to get connected:</p>
+		    <ol>
+			<li>Download your <a href="<?= $_SERVER["PHP_SELF"] . '?download-configuration' ?>">configuration file</a></li>
+			<li><?= $d->getOpenVPNLink() ?></li>
+			<li>Open the OpenVPN app, and import your .ovpn configuration file.</li>
+			<li>Click connect, enter your certificate password</li>
+			<li>Surf securely!</li>
+		    </ol>
+		    <p></p>
+		    <p><span class="italic">Remember: </span>A VPN can't protect you if it's not on!</p>
+
+		<?php } ?>
 	    
 	<?php } else { ?>
 
@@ -40,7 +59,8 @@
     </fieldset>
     <p>Need <a href="<?= $_SERVER["PHP_SELF"]; ?>?getting-started">help</a>?
     <?php if ( $d->admin === 1 ) { ?>
-	<a href="<?= $_SERVER["PHP_SELF"]; ?>?admin-console">Admin Console</a>
+	<a href="<?= $_SERVER["PHP_SELF"]; ?>?admin-console">Admin Console</a> |
+	<a href="<?= $_SERVER["PHP_SELF"]; ?>?log">Log</a>
     <?php } ?>
     </p>
 </div>
