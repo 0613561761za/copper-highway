@@ -68,8 +68,6 @@ $all_messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
      table tbody tr td {padding: 0px 5px;}
      abbr {cursor: help}
     </style>
-  </head>
-  <body>
     <div id="admin">
       <h1>Log Messages</h1>
       <h3>You are logged in as <em><?= Session::get("USERNAME"); ?></em>.</h3>
