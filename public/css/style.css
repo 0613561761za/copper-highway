@@ -102,7 +102,7 @@ div#top-nav a:hover{
 div#top-nav img {
     height: 24px;
     vertical-align: middle;
-    margin: 0px 2px;
+    margin: 0px 4px;
 }
 
 div#title {
@@ -116,6 +116,7 @@ div#navigation {
 
 div#navigation > span {
     margin-left: 10px;
+    white-space: nowrap;
 }
 
 div.content {
@@ -151,8 +152,8 @@ legend {
 
 .badger {
     display: inline;
-    font-size: 0.8rem;
-    font-family: monospace;
+    font-size: 0.9rem;
+    /* font-family: monospace; */
 }
 
 .badger span {
