@@ -34,7 +34,7 @@ class UserHome
     {
         /* get some details about the user */
         $this->username = Session::get("USERNAME");
-        $data = DatabaseFactory::quickQuery("SELECT uid, last_logon, approved, conf_path, cert_revoked FROM users WHERE username='$this->username'");
+        $data = DatabaseFactory::quickQuery("SELECT uid, last_logon, approved, conf_path, cert_revoked, clearance FROM users WHERE username='$this->username'");
         $data = $data->fetch(PDO::FETCH_ASSOC);
         $this->last_logon = gmdate('M d, Y', $data['last_logon']);
         $this->approved = $data['approved'];
@@ -42,7 +42,7 @@ class UserHome
         $this->cert_revoked = $data['cert_revoked'];
 
         /* determine if user is an admin */
-        if ( $data['uid'] == 1 ) {
+        if ( $data['clearance'] == 2 ) {
             $this->admin = 1;
         }
 
