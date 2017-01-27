@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 * {
     padding: 0;
     margin: 0;
@@ -7,8 +9,8 @@
 }
 
 html {
-    font-family: Sans-Serif;
-    font-size: 18px;
+    font-family: 'Roboto', Sans-Serif;
+    font-size: 16.8px;
     background-color: #FEFEFE;
     color: #333;
 }
@@ -17,11 +19,11 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 10px;
 }
 
-h1 {font-size: 2.0rem;}
-h2 {font-size: 1.8rem;}
-h3 {font-size: 1.6rem;}
-h4 {font-size: 1.4rem;}
-h5 {font-size: 1.2rem;}
+h1 {font-size: 1.5rem;}
+h2 {font-size: 1.4rem;}
+h3 {font-size: 1.3rem;}
+h4 {font-size: 1.2rem;}
+h5 {font-size: 1.1rem;}
 h6 {font-size: 1rem;}
 
 ul, ol {
@@ -45,8 +47,14 @@ p {margin-bottom: 15px;}
 .note {font-size: 0.8rem;}
 .nospace {margin: 0;}
 
-a {text-decoration: none;}
+a {
+    text-decoration: none;
+    color: #5b9aff;
+}
+
 a:hover {text-decoration: underline;}
+
+a:visited {color: #5b9aff;}
 
 input, select {
     -webkit-appearance: none;
@@ -55,11 +63,18 @@ input, select {
     font-size: 1rem;
     margin: 3px;
     padding: 5px;
-    border: 1px solid #333;
+    background-color: #cfdef7;
+    border: 1px solid #cfdef7;
     border-radius: 3px;
+    
 }
 
-input[type="submit"] {width: 200px;}
+input[type="submit"] {
+    width: 200px;
+    background-color: #4285f4;
+    border: 1px solid #4285f4;
+    color: #FEFEFE;
+}
 
 input[type="text"], input[type="password"], input[type="email"] {
     width: 200px;
@@ -71,14 +86,27 @@ select {width: 150px;}
 
 div#top-nav{
     padding: 10px 0px;
-    background-color: #f4f6f9;
+    background-color: #4285f4;
     box-shadow: -5px -5px 15px 0px #333;
     width: 100%;
     text-align: center;
+    color: #FEFEFE;
+}
+
+div#top-nav a{color:#FEFEFE;}
+div#top-nav a:hover{
+    text-decoration:none;
+    font-weight: 600;
+}
+
+div#top-nav img {
+    height: 24px;
+    vertical-align: middle;
+    margin: 0px 4px;
 }
 
 div#title {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-variant: small-caps;
 }
 
@@ -87,7 +115,9 @@ div#navigation {
 }
 
 div#navigation > span {
-    margin-left: 10px;
+    display: inline-block;
+    margin: 3px 0px 3px 10px;
+    white-space: nowrap;
 }
 
 div.content {
@@ -123,8 +153,8 @@ legend {
 
 .badger {
     display: inline;
-    font-size: 0.6rem;
-    font-family: monospace;
+    font-size: 0.9rem;
+    white-space: nowrap;
 }
 
 .badger span {

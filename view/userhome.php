@@ -14,7 +14,7 @@
 	    
 	    <div class="badger"><span>Configuration </span><span class="<?= $d->badger_conf_color ?>"><?= $d->badger_conf_text ?></span></div>
 	    <div class="badger"><span>Certificate </span><span class="<?= $d->badger_cert_color ?>"><?= $d->badger_cert_text ?></span></div>
-	    <div class="badger"><span>Portland Server </span><span class="green">Normal</span></div>
+            <div class="badger"><span>Portland&nbsp;Server </span><span class="green">Normal</span></div>
 
 	    <p></p>
 
