@@ -20,7 +20,7 @@
 		    <span id="contribute"><img src="images/git.png"><a href="index.php?contribute">Contribute</a></span>
 		<?php } ?>
 
-                <span id="account"><img src="images/shield.png"><a href="index.php?account"><?= Authenticator::loggedIn() ? ucfirst(strtolower(Session::get('USERNAME'))) . "'s" : "My" ?>&nbsp;Account</a></span>
+                <span id="account"><img src="images/shield.png"><a href="index.php?account"><?= Authenticator::loggedIn() ? "Dashboard" : "Login" ?></a></span>
 	    </div>
 	</div>
     <div id="feedback"><?= Session::get('FEEDBACK') ? Session::get('FEEDBACK') : "" ?></div>

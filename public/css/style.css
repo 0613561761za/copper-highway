@@ -105,6 +105,10 @@ div#top-nav img {
     margin: 0px 4px;
 }
 
+@media screen and (max-width: 480px) {
+    span#about{display:none;}
+}
+
 div#title {
     font-size: 2rem;
     font-variant: small-caps;
@@ -153,7 +157,7 @@ legend {
 .badger {
     display: inline;
     font-size: 0.9rem;
-    /* font-family: monospace; */
+    white-space: nowrap;
 }
 
 .badger span {
