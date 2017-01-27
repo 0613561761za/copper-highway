@@ -105,10 +105,6 @@ div#top-nav img {
     margin: 0px 4px;
 }
 
-@media screen and (max-width: 480px) {
-    span#about{display:none;}
-}
-
 div#title {
     font-size: 2rem;
     font-variant: small-caps;
@@ -119,7 +115,8 @@ div#navigation {
 }
 
 div#navigation > span {
-    margin-left: 10px;
+    display: inline-block;
+    margin: 3px 0px 3px 10px;
     white-space: nowrap;
 }
 
