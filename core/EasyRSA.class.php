@@ -18,8 +18,7 @@ class easyRSA
 {
     public static function certWizard($username, $password)
     {
-        $conf = parse_ini_file(__DIR__ . '/../CH.conf');
-        $path = $conf['EASY_RSA_PATH'];
+        $path = Config::getField('EASY_RSA_PATH');
         $path = rtrim($path, '/');
         $username_c = escapeshellarg($username);
         

@@ -186,9 +186,10 @@ class CopperHighway
                 $username = Session::get("USERNAME");
 
                 if ( EasyRSA::certWizard($username, $p["password"]) ) {
-                   
-                    shell_exec("cd /home/git/Projects/copperhighway/ovpn/ && /home/git/Projects/copperhighway/ovpn/make_unified.sh " . $username . " 2>&1");
-                    $conf_path = "/ovpn/" . $username . ".ovpn";
+
+                    $path = rtrim(Config::getField("CH_ROOT"), "/");
+                    shell_exec("cd $path/ovpn/ && $path/ovpn/make_unified.sh " . $username . " 2>&1");
+                    $conf_path = "$path/ovpn/" . $username . ".ovpn";
                     DatabaseFactory::quickQuery("UPDATE users SET conf_path='$conf_path' WHERE username='$username'");
                     Session::set("FEEDBACK", "Certificate and configuration file generated!");
                     Log::write($username, "certWizard: certificate and conf file created for $username", "NOTICE");
