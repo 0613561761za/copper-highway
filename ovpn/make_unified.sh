@@ -28,29 +28,33 @@ proto udp
 remote copperhighway.org 1194
 resolv-retry infinite
 nobind
-user nobody
-group nobody
 persist-key
 persist-tun
 comp-lzo
 verb 3
+user nobody
+group nobody
+cipher AES-128-CBC
 
 <ca>
 EOF
-cat /home/git/Projects/easy-rsa/easyrsa3/pki/ca.crt >> $1.ovpn
+cat /etc/openvpn/server_pki/ca.crt >> $1.ovpn
 cat <<EOF >> $1.ovpn
 </ca>
 <cert>
 EOF
-cat /home/git/Projects/easy-rsa/easyrsa3/pki/issued/$1.crt >> $1.ovpn
+cat /etc/openvpn/easy-rsa/easyrsa3/pki/issued/$1.crt >> $1.ovpn
 cat <<EOF >> $1.ovpn
 </cert>
 <key>
 EOF
-cat /home/git/Projects/easy-rsa/easyrsa3/pki/private/$1.key >> $1.ovpn
+cat /etc/openvpn/easy-rsa/easyrsa3/pki/private/$1.key >> $1.ovpn
 cat <<EOF >> $1.ovpn
 </key>
+key-direction 1
+<tls-auth>
 EOF
-
-
-
+cat /etc/openvpn/server_pki/ta.key >> $1.ovpn
+cat <<EOF >> $1.ovpn
+</tls-auth>
+EOF
