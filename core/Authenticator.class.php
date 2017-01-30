@@ -236,7 +236,7 @@ class Authenticator
         
         $result = $db->query($sql);
         $row = $result->fetch(PDO::FETCH_ASSOC);
-        if ($row && $row["uid"] != 1) {  /* we don't want anyone to be able reset the root (UID 1) user */
+        if ($row) {
             return TRUE;
         } else {
             return FALSE;
