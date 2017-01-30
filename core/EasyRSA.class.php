@@ -62,8 +62,9 @@ class easyRSA
                     fwrite($pipes[0], $password."\n");
                 } elseif (preg_match('/\nVerifying - Enter PEM pass phrase:$/i', $buffer)) {
                     fwrite($pipes[0], $password."\n");
+                } elseif (preg_match('/(error|denied)/i', $buffer)) {
+                    return FALSE;
                 }
-
             }
 
             fclose($pipes[0]);

@@ -188,7 +188,7 @@ class CopperHighway
                 if ( EasyRSA::certWizard($username, $p["password"]) ) {
 
                     $path = rtrim(Config::getField("CH_ROOT"), "/");
-                    shell_exec("cd $path/ovpn/ && $path/ovpn/make_unified.sh " . $username . " 2>&1");
+                    shell_exec("cd $path/ovpn/ && $path/ovpn/make_unified.sh " . $username);
                     $conf_path = "$path/ovpn/" . $username . ".ovpn";
                     DatabaseFactory::quickQuery("UPDATE users SET conf_path='$conf_path' WHERE username='$username'");
                     Session::set("FEEDBACK", "Certificate and configuration file generated!");
@@ -274,7 +274,7 @@ class CopperHighway
             $temporary_password_expiration = (int) time() + 3600; /* 1 hour */
             $sql = "UPDATE users SET password_hash='$password_hash', temporary_password_expiration='$temporary_password_expiration', temporary_password='$temporary_password' WHERE username='$username' AND email='$email'";
             
-            if ( Authenticator::checkUserExists($username, $email) ) {
+            if ( Authenticator::checkUserExists($username, $email, TRUE) ) {
 
                 if ( DatabaseFactory::quickQuery($sql) ) {
 

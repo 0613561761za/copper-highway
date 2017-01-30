@@ -35,6 +35,7 @@ verb 3
 user nobody
 group nobody
 cipher AES-128-CBC
+remote-cert-tls server
 
 <ca>
 EOF

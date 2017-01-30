@@ -103,7 +103,7 @@ class Authenticator
             return FALSE;
         }
 
-        if ( self::checkUserExists($username, $email) ) {
+        if ( self::checkUserExists($username, $email, FALSE) ) {
             Session::set('FEEDBACK', 'That username or email is unavailable.');
             Log::write($username, '(CLIENT SIDE INPUT VALIDATION FAILURE) New user registration failed: username or e-mail already taken.', 'SECURITY');
             return FALSE;
@@ -221,12 +221,19 @@ class Authenticator
      *
      * @param string $username the username to check
      * @param string $email the email to check
+     * @param bool $strict should we check username AND e-mail (TRUE) or just one (FALSE)?
      * @return bool TRUE if both username and email exists, FALSE otherwise
      */
-    public static function checkUserExists($username, $email)
+    public static function checkUserExists($username, $email, $strict = FALSE)
     {
         $db = DatabaseFactory::getFactory()->getConnection();
-        $sql = "SELECT * FROM users WHERE username='$username' AND email='$email' LIMIT 1";
+        
+        if ($strict) {
+            $sql = "SELECT * FROM users WHERE username='$username' AND email='$email' LIMIT 1";
+        } else if (!$strict) {
+            $sql = "SELECT * FROM users WHERE username='$username' OR email='$email' LIMIT 1";
+        }
+        
         $result = $db->query($sql);
         $row = $result->fetch(PDO::FETCH_ASSOC);
         if ($row && $row["uid"] != 1) {  /* we don't want anyone to be able reset the root (UID 1) user */
