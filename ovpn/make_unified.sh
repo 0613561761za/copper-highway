@@ -5,7 +5,7 @@ if [ -z $1 ]; then
     exit 0
 fi
 
-cat <<EOF >> $1.ovpn
+cat <<EOF >> $1.ovpn 2> errors.log
 #############################################
 #     _                                     # 
 #    /  _ ._ ._  _ ._|_|o _ |_      _.      # 
@@ -39,23 +39,23 @@ remote-cert-tls server
 
 <ca>
 EOF
-cat /etc/openvpn/server_pki/ca.crt >> $1.ovpn
-cat <<EOF >> $1.ovpn
+cat /etc/openvpn/server_pki/ca.crt >> $1.ovpn 2> errors.log
+cat <<EOF >> $1.ovpn 2> errors.log
 </ca>
 <cert>
 EOF
-cat /etc/openvpn/easy-rsa/easyrsa3/pki/issued/$1.crt >> $1.ovpn
-cat <<EOF >> $1.ovpn
+cat /etc/openvpn/easy-rsa/easyrsa3/pki/issued/$1.crt >> $1.ovpn 2> errors.log
+cat <<EOF >> $1.ovpn 2> errors.log
 </cert>
 <key>
 EOF
-cat /etc/openvpn/easy-rsa/easyrsa3/pki/private/$1.key >> $1.ovpn
-cat <<EOF >> $1.ovpn
+cat /etc/openvpn/easy-rsa/easyrsa3/pki/private/$1.key >> $1.ovpn 2> errors.log
+cat <<EOF >> $1.ovpn 2> errors.log
 </key>
 key-direction 1
 <tls-auth>
 EOF
-cat /etc/openvpn/server_pki/ta.key >> $1.ovpn
-cat <<EOF >> $1.ovpn
+cat /etc/openvpn/server_pki/ta.key >> $1.ovpn 2> errors.log
+cat <<EOF >> $1.ovpn 2> errors.log
 </tls-auth>
 EOF
