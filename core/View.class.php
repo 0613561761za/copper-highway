@@ -53,6 +53,15 @@ class View
             require_once __DIR__ . '/../view/footer.php';
         }
     }
+
+    public function goAccess()
+    {
+        if (file_exists(__DIR__ . '/../view/goaccess.html')) {
+            readfile(__DIR__ . '/../view/goaccess.html');
+        } else {
+            $this->showError('404');
+        }
+    }
 }
 
 /* EOF */

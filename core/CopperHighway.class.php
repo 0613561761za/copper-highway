@@ -87,6 +87,15 @@ class CopperHighway
                 }
                 break;
 
+            case "goaccess":
+                if ( Authenticator::loggedIn() && Session::get("CLEARANCE") == 2 ) {
+                    exec('zcat -f /var/log/nginx/access* | goaccess -o /var/www/copperhighway/view/goaccess.html --geoip-database /var/lib/GeoIP/GeoLite2-City.mmdb');
+                    $this->view->goAccess();
+                } else {
+                    $this->view->render("home");
+                }
+                break;
+
             case "log":
                 if ( Authenticator::loggedIn() && Session::get("CLEARANCE") == 2 ) {
                     $this->view->render("log");
