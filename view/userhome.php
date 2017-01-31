@@ -24,8 +24,8 @@
 	    <p class="note"><span class="italic">Tip: </span>You'll need to enter this password everytime you connect to the VPN service, so make sure it's something you'll remember.</p>
 	    <div>
 		<form action="<?= $_SERVER["PHP_SELF"]; ?>" method="POST">
-		    <input type="password" name="password" placeholder="password" required autofocus>
-		    <input type="password" name="password-repeat" placeholder="password (confirm)" required>		
+		    <input type="password" name="password" placeholder="password" autocomplete="off" required >
+		    <input type="password" name="password-repeat" placeholder="password (confirm)" autocomplete="off" required>		
 		    <input type="hidden" name="referrer" value="create-cert">
 		    <input type="submit" value="Create Certificate!">
 		    <input type="hidden" name="csrf" value="<?= CSRF::makeToken() ?>">
