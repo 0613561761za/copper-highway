@@ -157,6 +157,11 @@ class CopperHighway
         }
     }
 
+    /** 
+     * Handle POST data 
+     *
+     * @param $p an array of POST data... usually just from $_POST
+     */
     private function handlePost(array $p)
     {
 
@@ -242,6 +247,7 @@ class CopperHighway
             );
 
             if ( Authenticator::registerNewUser($new_user_data) ) {
+                Mail::newRegistration($new_user_data['email'], $new_user_data['username']);
                 Authenticator::login($new_user_data['username']);
                 Session::set('FEEDBACK', 'Account created successfully.  You are now logged in.');
                 $this->view->render("userhome");
@@ -278,6 +284,7 @@ class CopperHighway
 
                 if ( DatabaseFactory::quickQuery($sql) ) {
 
+                    Mail::temporaryPassword($email, $username, $temporary_password);
                     Log::write(Session::get("USERNAME"), "Password reset successfully for $username ($email)", "NOTICE");
                     Session::set("FEEDBACK", "Password reset&mdash;check your e-mail.");
                     $this->view->render("forgot-password");
