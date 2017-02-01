@@ -222,6 +222,56 @@ class CopperHighway
             
             break;
 
+        case "approve-user":
+
+            if ( !Authenticator::loggedIn() || Session::get("CLEARANCE") != 2) {
+                $this->view->showError("403");
+                break;
+            }
+
+            $uid = $p["uid"];
+            $db = DatabaseFactory::quickQuery("SELECT email, username FROM users WHERE uid='$uid' LIMIT 1");
+            $row = $db->fetch(PDO::FETCH_ASSOC);
+            $email = $row['email'];
+            $username = $row['username'];            
+            $sql = "UPDATE users SET approved=1 WHERE uid='$uid'";
+
+            if ( !DatabaseFactory::quickQuery($sql) ) {
+                Session::set("FEEDBACK", "Error: couldn't commit changes to the database!");
+            } else {
+                Mail::approved($email, $username);
+                Session::set("FEEDBACK", "User (UID: $uid) approved, e-mail sent");
+            }
+
+            $this->view->render("admin-console");
+            
+            break;
+
+        case "revoke-user":
+
+            if ( !Authenticator::loggedIn() || Session::get("CLEARANCE") != 2) {
+                $this->view->showError("403");
+                break;
+            }
+
+            $uid = $p["uid"];
+            $db = DatabaseFactory::quickQuery("SELECT email, username FROM users WHERE uid='$uid' LIMIT 1");
+            $row = $db->fetch(PDO::FETCH_ASSOC);
+            $email = $row['email'];
+            $username = $row['username'];            
+            $sql = "UPDATE users SET revoked=1 WHERE uid='$uid'";
+
+            if ( !DatabaseFactory::quickQuery($sql) || !EasyRSA::revoke($username) ) {
+                Session::set("FEEDBACK", "Error: couldn't commit changes to the database!");
+            } else {
+                Mail::revoked($email, $username);
+                Session::set("FEEDBACK", "User (UID: $uid) revoked, e-mail sent");
+            }
+
+            $this->view->render("admin-console");
+            
+            break;
+
         case "update-record":
 
             if ( !Authenticator::loggedIn() || Session::get("CLEARANCE") != 2) {

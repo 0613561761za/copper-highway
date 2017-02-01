@@ -15,11 +15,10 @@ spl_autoload_register(function($class) {
 });
 
 class easyRSA
-{
+{   
     public static function certWizard($username, $password)
     {
-        $path = Config::getField('EASY_RSA_PATH');
-        $path = rtrim($path, '/');
+        $path = rtrim(Config::getField('EASY_RSA_PATH'), '/');
         $username_c = escapeshellarg($username);
         
         $cmd = 'RANDFILE=' . $path . '/pki/.rnd ' . $path . '/easyrsa build-client-full ' . $username_c;
@@ -74,6 +73,21 @@ class easyRSA
             return TRUE;
             
         } else {
+            return FALSE;
+        }
+    }
+
+    public static function revoke($username)
+    {
+        $path = rtrim(Config::getField('EASY_RSA_PATH'), '/');
+        $stdout = array();
+        $ret = null;
+        exec("cd $path; ./easyrsa revoke " . $username . " 2>&1", $stdout, $ret);
+
+        if ( $ret == 0 ) {
+            exec("cd $path; ./easyrsa gen-crl");
+            return TRUE;
+        } else if ( $ret == 1 ) {
             return FALSE;
         }
     }
