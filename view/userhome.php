@@ -60,7 +60,8 @@
     <p>Need <a href="<?= $_SERVER["PHP_SELF"]; ?>?getting-started">help</a>?
     <?php if ( $d->admin === 1 ) { ?>
 	<a href="<?= $_SERVER["PHP_SELF"]; ?>?admin-console">Admin Console</a> |
-	<a href="<?= $_SERVER["PHP_SELF"]; ?>?log">Log</a>
+	<a href="<?= $_SERVER["PHP_SELF"]; ?>?log">Software Log</a> |
+	<a href="<?= $_SERVER["PHP_SELF"]; ?>?goaccess" target="_blank">Server Log</a>
     <?php } ?>
     </p>
 </div>

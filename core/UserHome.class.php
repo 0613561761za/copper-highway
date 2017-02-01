@@ -56,7 +56,6 @@ class UserHome
             $this->has_conf = TRUE;
         }
 
-
         /* certificate badge */
         if ( !empty($this->cert_revoked) && $this->revoked == 1 ) {
             $this->badger_cert_color = 'red';
@@ -75,17 +74,17 @@ class UserHome
         $u = $_SERVER["HTTP_USER_AGENT"];
         
         if ( preg_match('/windows|win/i', $u) ) {
-            return 'Download <a href="https://swupdate.openvpn.org/community/releases/openvpn-install-2.4.0-I601.exe" target="_blank">OpenVPN GUI for Windows</a>';
+            return 'Download <a href="https://swupdate.openvpn.org/community/releases/openvpn-install-2.4.0-I601.exe" target="_blank">OpenVPN GUI for Windows<img src="images/new_window.png"></a>';
         } else if ( preg_match('/mac/i', $u) && !preg_match('/iphone|ipod|ipad/i', $u) ) {
-            return 'Download <a href="https://tunnelblick.net/release/Tunnelblick_3.6.10_build_4760.dmg" target="_blank">OpenVPN for OSX</a>';
+            return 'Download <a href="https://tunnelblick.net/release/Tunnelblick_3.6.10_build_4760.dmg" target="_blank">OpenVPN for OSX<img src="images/new_window.png"></a>';
         } else if ( preg_match('/linux|ubuntu/i', $u) && !preg_match('/android/i', $u) && !preg_match('/tizen/i', $u) ) {
-            return 'Run <code>sudo apt install network-manager-openvpn</code> <span class="italic">or</span> search <a href="https://www.google.com/#q=OpenVPN+client+linux" target="_blank">Google: OpenVPN client linux </a>';
+            return 'Run <code>sudo apt install network-manager-openvpn</code> <span class="italic">or</span> search <a href="https://www.google.com/#q=OpenVPN+client+linux" target="_blank">Google: OpenVPN client linux<img src="images/new_window.png"></a>';
         } else if ( preg_match('/iphone|ipod|ipad/i', $u) ) {
-            return 'Download <a href="https://itunes.apple.com/us/app/openvpn-connect/id590379981?mt=8" target="_blank">OpenVPN for iOS</a>';
+            return 'Download <a href="https://itunes.apple.com/us/app/openvpn-connect/id590379981?mt=8" target="_blank">OpenVPN for iOS<img src="images/new_window.png"></a>';
         } else if ( preg_match('/android/i', $u) ) {
-            return 'Download <a href="https://play.google.com/store/apps/details?id=net.openvpn.openvpn&hl=en" target="_blank">OpenVPN for Android</a>';
+            return 'Download <a href="https://play.google.com/store/apps/details?id=net.openvpn.openvpn&hl=en" target="_blank">OpenVPN for Android<img src="images/new_window.png"></a>';
         } else {
-            return 'Search <a href="https://www.google.com/#q=OpenVPN+Client" target="_blank">Google: OpenVPN Client</a> (we couldn\'t detect your OS).';
+            return 'Search <a href="https://www.google.com/#q=OpenVPN+Client" target="_blank">Google: OpenVPN Client<img src="images/new_window.png"></a> (we couldn\'t detect your OS).';
         }
     }
 
