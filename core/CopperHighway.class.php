@@ -237,9 +237,11 @@ class CopperHighway
             $sql = "UPDATE users SET approved=1 WHERE uid='$uid'";
 
             if ( !DatabaseFactory::quickQuery($sql) ) {
+                Log::write(Session::get("USERNAME"), "Attempt to approve UID $uid failed, could not commit to DB.", "ERROR");
                 Session::set("FEEDBACK", "Error: couldn't commit changes to the database!");
             } else {
                 Mail::approved($email, $username);
+                Log::write(Session::get("USERNAME"), "User ID $uid approved, email sent", "NOTICE");
                 Session::set("FEEDBACK", "User (UID: $uid) approved, e-mail sent");
             }
 
@@ -262,9 +264,11 @@ class CopperHighway
             $sql = "UPDATE users SET cert_revoked=1 WHERE uid='$uid'";
 
             if ( !DatabaseFactory::quickQuery($sql) || !EasyRSA::revoke($username) ) {
+                Log::write(Session::get("USERNAME"), "Attempt to revoke UID $uid certificate failed, could not commit to DB.", "ERROR");
                 Session::set("FEEDBACK", "Error: couldn't commit changes to the database!");
             } else {
                 Mail::revoked($email, $username);
+                Log::write(Session::get("USERNAME"), "User ID $uid certificate revoked.", "SECURITY");
                 Session::set("FEEDBACK", "User (UID: $uid) revoked, e-mail sent");
             }
 

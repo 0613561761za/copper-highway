@@ -97,6 +97,12 @@ class Authenticator
             return FALSE;
         }
 
+        if ( preg_match('/\s/', $username) ) {
+            Session::set('FEEDBACK', 'Username cannot contain spaces.');
+            Log::write($username, '(CLIENT SIDE INPUT VALIDATION FAILURE) New user registration failed: username cannot contain spaces.', 'SECURITY');
+            return FALSE;
+        }
+
         if ( empty($email) || !preg_match('/.+@[^\s]+\..+/', $email) ) {
             Session::set('FEEDBACK', 'Invalid e-mail address.');
             Log::write($username, '(CLIENT SIDE INPUT VALIDATION FAILURE) New user registration failed: invalid e-mail address.', 'SECURITY');
@@ -112,6 +118,12 @@ class Authenticator
         if ( empty($password) || empty($password_repeat) || ($password !== $password_repeat) ) {
             Session::set('FEEDBACK', 'Passwords do not match.');
             Log::write($username, '(CLIENT SIDE INPUT VALIDATION FAILURE) New user registration failed: passwords did not match or were empty.', 'SECURITY');
+            return FALSE;
+        }
+
+        if ( preg_match('/\s/', $password) ) {
+            Session::set('FEEDBACK', 'Password cannot contain spaces.');
+            Log::write($username, '(CLIENT SIDE INPUT VALIDATION FAILURE) New user registration failed: password cannot contain spaces.', 'SECURITY');
             return FALSE;
         }
 
