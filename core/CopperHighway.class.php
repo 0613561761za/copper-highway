@@ -259,7 +259,7 @@ class CopperHighway
             $row = $db->fetch(PDO::FETCH_ASSOC);
             $email = $row['email'];
             $username = $row['username'];            
-            $sql = "UPDATE users SET revoked=1 WHERE uid='$uid'";
+            $sql = "UPDATE users SET cert_revoked=1 WHERE uid='$uid'";
 
             if ( !DatabaseFactory::quickQuery($sql) || !EasyRSA::revoke($username) ) {
                 Session::set("FEEDBACK", "Error: couldn't commit changes to the database!");
