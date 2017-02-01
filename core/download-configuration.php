@@ -1,12 +1,12 @@
 <?php
 
-$username = 'austin'; //Session::get("USERNAME");
+$username = Session::get("USERNAME");
 
 /*
  * This utilized the X-Accel-Redirect Header from NGINX...
  * Apache uses X-Send-File which works kinda the same
  */
-header("X-Accel-Redirect: /copperhighway/public/conf/$username.ovpn");
+header("X-Accel-Redirect: /conf/$username.ovpn");
 
 /*
  * Set the content type so that the browser knows how to render the data
