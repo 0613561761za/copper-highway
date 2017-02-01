@@ -30,16 +30,16 @@
     <h6>Desktop</h6>
     <p>Windows XP or later:
 	<ul>
-	    <li><a href="https://swupdate.openvpn.org/community/releases/openvpn-install-2.4.0-I601.exe" target="_blank">OpenVPN-GUI Download<img src="images/new_window.png"></a></li>
-	    <li><a href="https://openvpn.net/index.php/access-server/docs/admin-guides-sp-859543150/howto-connect-client-configuration/395-how-to-install-the-openvpn-client-on-windows.html" target="_blank">How-to install OpenVPN Client<img src="images/new_window.png"></a></li>
+	    <li><a href="https://swupdate.openvpn.org/community/releases/openvpn-install-2.4.0-I601.exe" target="_blank">OpenVPN-GUI Download <img src="images/new_window.png"></a></li>
+	    <li><a href="https://openvpn.net/index.php/access-server/docs/admin-guides-sp-859543150/howto-connect-client-configuration/395-how-to-install-the-openvpn-client-on-windows.html" target="_blank">How-to install OpenVPN Client <img src="images/new_window.png"></a></li>
 	</ul>
     </p>
-    <p>OSX: <a href="https://tunnelblick.net/downloads.html" target="_blank">TunnelBlick<img src="images/new_window.png"></a></p>
-    <p>Linux: Check your package manager or have a look at the <a href="https://community.openvpn.net/openvpn/wiki/OpenvpnSoftwareRepos" target="_blank">OpenVPN Debian and Ubuntu Repos<img src="images/new_window.png"></a></p>
+    <p>OSX: <a href="https://tunnelblick.net/downloads.html" target="_blank">TunnelBlick <img src="images/new_window.png"></a></p>
+    <p>Linux: Check your package manager or have a look at the <a href="https://community.openvpn.net/openvpn/wiki/OpenvpnSoftwareRepos" target="_blank">OpenVPN Debian and Ubuntu Repos <img src="images/new_window.png"></a></p>
 
     <h6>Mobile</h6>
-    <p>iOS: <a href="https://itunes.apple.com/us/app/openvpn-connect/id590379981?mt=8" target="_blank">OpenVPN Connect (App Store)<img src="images/new_window.png"></a></p>
-    <p>Android: <a href="https://play.google.com/store/apps/details?id=net.openvpn.openvpn&hl=en" target="_blank">OpenVPN Connect (Google Play)<img src="images/new_window.png"></a></p>
+    <p>iOS: <a href="https://itunes.apple.com/us/app/openvpn-connect/id590379981?mt=8" target="_blank">OpenVPN Connect (App Store) <img src="images/new_window.png"></a></p>
+    <p>Android: <a href="https://play.google.com/store/apps/details?id=net.openvpn.openvpn&hl=en" target="_blank">OpenVPN Connect (Google Play) <img src="images/new_window.png"></a></p>
     
     <h5 id="connecting">Connecting</h5>
     <p>Once you've created your unified configuration file and downloaded it to your computer, you should store it in a safe place on your hard drive or phone's SD card.  Then, simply open up your client software (OpenVPN Connect, Tunnelblick, etc.) and find the "Import" menu item.  Find your configuration file (<span class="italic">something.ovpn</span>) and select it.  Once it's loaded into the client software, you just have to click "Connect"!</p>
