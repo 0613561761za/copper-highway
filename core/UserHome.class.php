@@ -57,7 +57,7 @@ class UserHome
         }
 
         /* certificate badge */
-        if ( !empty($this->cert_revoked) && $this->revoked == 1 ) {
+        if ( !empty($this->cert_revoked) && $this->cert_revoked == 1 ) {
             $this->badger_cert_color = 'red';
             $this->badger_cert_text = 'Revoked';
         } else if ( empty($this->cert_revoked) && !empty($this->conf_path) ) {
