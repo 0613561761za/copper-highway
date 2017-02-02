@@ -379,7 +379,7 @@ class CopperHighway
 
                 $username = Session::get("USERNAME");
                 $password_hash = password_hash($p["password"], PASSWORD_DEFAULT);
-                $sql = "UPDATE users SET password_hash='$password_hash' WHERE username='$username'";
+                $sql = "UPDATE users SET password_hash='$password_hash', temporary_password='', temporary_password_expiration='' WHERE username='$username'";
 
                 if ( !DatabaseFactory::quickQuery($sql) ) {
                     Log::write($username, "Couldn't change password: database error.", "ERROR");
