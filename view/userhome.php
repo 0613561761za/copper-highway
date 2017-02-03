@@ -45,7 +45,6 @@
 
 		<h6>Get Connected!</h6>
 
-		<p class="note"><span class="italic">Congrats, you have a certificate and a configuration file!  Here's what you need to do to get connected:</p>
 		    <ol>
 			<li>Download your <a href="<?= $_SERVER["PHP_SELF"] . '?download-configuration' ?>">configuration file</a></li>
 			<li><?= $d->getOpenVPNLink() ?></li>
