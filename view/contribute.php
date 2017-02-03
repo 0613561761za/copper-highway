@@ -1,7 +1,7 @@
 <div class="content">
     <h2>Contribute</h2>
-    <p>We are always looking for contributors to help grow our service.  If you're interested in becoming a member of the team, please contact <a href="mailto:austin@copperhighway.org">austin@copperhighway.org</a>.</p>
-    
+    <p>We are always looking for contributors to help grow our service.  If you're interested in becoming a member of the team, please contact <a href="mailto:contribute@copperhighway.org">contribute@copperhighway.org</a>.</p>
+    <p></p>
     <h4>Vetting Team</h4>
     <p>Our vetting team is responsible for maintaining the integrity of the service by vetting all users for the proper affiliations before they're granted access to the VPN service.</p>
 
