@@ -398,6 +398,54 @@ class CopperHighway
             }
 
             break;
+
+        case "delete-account":
+
+            if ( !Authenticator::loggedIn() ) {
+                $this->view->showError("403");
+                break;
+            }
+
+            if ( Session::get("USERNAME") != $p["username"] ) {
+                Session::set("FEEDBACK", "You entered a username other than your own.");
+                $this->view->render("delete-account");
+                break;
+            }
+            
+            if ( Authenticator::checkCredentials($p["username"], $p["password"]) ) {
+                             
+                $username = Session::get("USERNAME");
+                $stmt = DatabaseFactory::quickQuery("SELECT conf_path, email FROM users WHERE username='$username' LIMIT 1");
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                $email = $row["email"];
+                $conf_path = $row["conf_path"];
+
+                Mail::deletedAccount($email, $username);
+
+                exec("rm -f $conf_path");
+                
+                if ( !EasyRSA::revoke($username) ) {
+                    Mail::notifyAdmin("CopperHighway Bot:  Could not revoke cert for $username.  Please revoke manually and update the CRL.  Have a good one.");
+                }
+
+                if ( !DatabaseFactory::quickQuery("DELETE FROM users WHERE username='$username'") ) {
+                    Mail::notifyAdmin("CoppeHighway Bot:  Could not delete $username from the database. Please investigate. Have a good one.");
+                }
+
+                if ( Authenticator::loggedIn() ) {
+                    Authenticator::logout();
+                    Session::set("FEEDBACK", "Have a good one.");
+                }
+                $this->view->render("home");
+
+            } else {
+
+                Session::set("FEEDBACK", "Invalid credentials!");
+                Log::write(Session::get("USERNAME"), "Error while trying to delete user account: invalid credentials", "NOTICE");
+                $this->view->render("delete-account");
+            }
+
+            break;
         
         default:
             $this->view->showError("400"); /* malformed request */

@@ -17,10 +17,10 @@ class DatabaseFactory
     
     public static function getFactory()
     {
-	if (!self::$factory) {
-	    self::$factory = new DatabaseFactory();
-	}
-	return self::$factory;
+        if (!self::$factory) {
+            self::$factory = new DatabaseFactory();
+        }
+        return self::$factory;
     }
     
     public function getConnection()
@@ -35,12 +35,19 @@ class DatabaseFactory
      * DatabaseFactory::quickQuery()
      *
      * @param string $sql the SQL command to be queried
+     * @param boolean $debugging print errorInfo() or not
      * @return mixed PDOStatment object, or FALSE on failure
      */
-    public static function quickQuery($sql)
+    public static function quickQuery($sql, $debugging = FALSE)
     {
-	$db = self::getFactory()->getConnection();
-    return $db->query($sql);
+        $db = self::getFactory()->getConnection();
+        if ( $debugging === TRUE ) {
+            $stmt = $db->query($sql);
+            var_dump($db->errorInfo());
+            return $stmt;
+        } else {
+            return $db->query($sql);
+        }
     }
 }
 
