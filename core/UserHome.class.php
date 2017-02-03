@@ -97,7 +97,6 @@ class UserHome
         $sql = "SELECT * FROM users ORDER BY account_creation_date ASC";
         $stmt = DatabaseFactory::quickQuery($sql);
         $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
         echo <<<EOT
 <table id="admin">
 <thead>
@@ -124,13 +123,13 @@ EOT;
             echo "<td>" . $row["first_name"] . "</td>\n";
             echo "<td>" . $row["last_name"] . "</td>\n";
             echo "<td>" . $row["username"] . "</td>\n";
-            echo "<td>" . gmdate('d M y H:i', $row["account_creation_date"]) . "</td>\n";
+            echo "<td>" . gmdate('m/d/y', $row["account_creation_date"]) . "</td>\n";
             echo "<td>" . $row["ref_code"] . "</td>\n";
-            echo "<td>" . gmdate('d M y H:i', $row["last_logon"]) . "</td>\n";
+            echo "<td>" . gmdate('m/d/y H:i', $row["last_logon"]) . "</td>\n";
             echo "<td>" . $row["clearance"] . "</td>\n";
-            echo "<td>" . $row["conf_path"] . "</td>\n";
-            echo "<td>" . $row["approved"] . "</td>\n";
-            echo "<td>" . $row["cert_revoked"] . "</td>\n";
+            echo "<td>" . (empty($row["conf_path"]) ? "No" : "Yes") . "</td>\n";
+            echo "<td>" . ($row["approved"] == 1 ? "Yes" : "No") . "</td>\n";
+            echo "<td>" . ($row["cert_revoked"] == 1 ? "Yes" : "No") . "</td>\n";
             echo "</tr>\n";
         }
 
