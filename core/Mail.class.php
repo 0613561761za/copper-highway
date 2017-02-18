@@ -49,8 +49,12 @@ class Mail
         mail($email, "Goodbye.", $message, self::HEADERS, self::PARAMS);
     }
 
-    public static function notifyAdmin($message)
+    public static function notifyAdmin($message, $badnews = TRUE)
     {
-        mail("insdavm@gmail.com", "CopperHighway Bot:  Help!", $message, self::HEADERS, self::PARAMS);
+        if ( $badnews == TRUE ) {
+            mail("insdavm@gmail.com", "CopperHighway Bot:  Help!", $message, self::HEADERS, self::PARAMS);
+        } else if ( $badnews == FALSE ) {
+            mail("insdavm@gmail.com", "CopperHighway Bot:  Heads up", $message, self::HEADERS, self::PARAMS);
+        }
     }
 }

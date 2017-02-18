@@ -89,7 +89,10 @@ class CopperHighway
 
             case "goaccess":
                 if ( Authenticator::loggedIn() && Session::get("CLEARANCE") == 2 ) {
-                    exec('zcat -f /var/log/nginx/access* | goaccess -o /var/www/copperhighway/view/goaccess.html --geoip-database /var/lib/GeoIP/GeoLite2-City.mmdb');
+                    $ch_root = rtrim(Config::getField("CH_ROOT"), "/");
+                    $nginx_log_dir = rtrim(Config::getField("NGINX_LOG_DIR"), "/");
+                    $geo_ip_path = rtrim(Config::getField("GEO_IP_PATH"), "/");
+                    exec('zcat -f ' . $nginx_log_dir . 'access* | goaccess -o ' . $path . 'view/goaccess.html --geoip-database ' . $geo_ip_path);
                     $this->view->goAccess();
                 } else {
                     $this->view->render("home");
@@ -311,6 +314,7 @@ class CopperHighway
 
             if ( Authenticator::registerNewUser($new_user_data) ) {
                 Mail::newRegistration($new_user_data['email'], $new_user_data['username']);
+                Mail::notifyAdmin("New user registered!", FALSE);
                 Authenticator::login($new_user_data['username']);
                 Session::set('FEEDBACK', 'Account created successfully.  You are now logged in.');
                 $this->view->render("userhome");
