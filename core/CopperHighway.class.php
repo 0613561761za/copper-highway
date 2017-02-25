@@ -94,7 +94,7 @@ class CopperHighway
                     $ch_root = rtrim(Config::getField("CH_ROOT"), "/");
                     $nginx_log_dir = rtrim(Config::getField("NGINX_LOG_DIR"), "/");
                     $geo_ip_path = rtrim(Config::getField("GEO_IP_PATH"), "/");
-                    exec('cat ' . $nginx_log_dir . '/access.log ' . $nginx_log_dir . '/access.log.1 | goaccess -o ' . $ch_root . '/view/goaccess.html --geoip-database ' . $geo_ip_path);
+                    exec('zcat -f ' . $nginx_log_dir . '/access* | goaccess -o ' . $ch_root . '/view/goaccess.html --geoip-database ' . $geo_ip_path);
                     $this->view->goAccess();
                 } else {
                     $this->view->render("home");
