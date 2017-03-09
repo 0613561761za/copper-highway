@@ -1,11 +1,13 @@
 <?php
 
 /**
- * Class Session
- *
- * Up-armored session wrapper for PHP
- *
+ * Copper Highway
+ * 
+ * A VPN service co-op
+ * 
  * @author Austin <austin@copperhighway.org>
+ * @version 1.0
+ * @date 2017.01.21
  */
 
 class Session

@@ -1,13 +1,13 @@
 <?php
 
-/** 
- * Class CSRF
- *
- * Provides Cross-Site Request Forgery (CSRF) protection
- * through the generation and verification of random tokens
- *
- * @author SFC Austin Davis <michael.austin.davis@soc.mil>
- * @license ~/LICENSE.md
+/**
+ * Copper Highway
+ * 
+ * A VPN service co-op
+ * 
+ * @author Austin <austin@copperhighway.org>
+ * @version 1.0
+ * @date 2017.01.21
  */
 
 spl_autoload_register(function($class) {

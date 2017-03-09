@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Log (dot) php
- *
- * Dumps log data in a sick ass format
- * @author Austin <insdavm@gmail.com>
+ * Copper Highway
+ * 
+ * A VPN service co-op
+ * 
+ * @author Austin <austin@copperhighway.org>
+ * @version 1.0
+ * @date 2017.01.21
  */
 
-/**
- * Auto load any classes we need
- */
 spl_autoload_register(function($class) {
     require_once __DIR__ . '/../core/' . $class . '.class.php';
 });
@@ -41,9 +41,6 @@ function fancyTime($time)
     }
 }
 
-/**
- * Fetch our data
- */
 $db = DatabaseFactory::getFactory()->getConnection();
 $sql = "SELECT * FROM log ORDER BY id DESC";
 $stmt = $db->query($sql);
@@ -84,9 +81,6 @@ $all_messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	<tbody>
 	  <?php
 
-	  /**
-	   * Loop through the rows and print them as an HTML table's row
-	   */
 	  foreach ($all_messages as $row) {
 	      echo '<tr>';
 	      echo '<td>' . $row['id'] . '</td>';

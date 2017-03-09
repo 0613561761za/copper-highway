@@ -1,12 +1,13 @@
 <?php
 
-/** 
- * Class Mail
- *
- * Provides static functions used to authenticate users
- *
- * @author SFC Austin Davis <michael.austin.davis@soc.mil>
- * @license ~/LICENSE.md
+/**
+ * Copper Highway
+ * 
+ * A VPN service co-op
+ * 
+ * @author Austin <austin@copperhighway.org>
+ * @version 1.0
+ * @date 2017.01.21
  */
 
 spl_autoload_register(function($class) {

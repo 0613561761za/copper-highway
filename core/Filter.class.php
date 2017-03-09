@@ -1,12 +1,13 @@
 <?php
 
-/** 
- * Class Filter
- *
- * Filters used to clean, filter, or validate user input.
- *
- * @author SFC Austin Davis <michael.austin.davis@soc.mil>
- * @license ~/LICENSE.md
+/**
+ * Copper Highway
+ * 
+ * A VPN service co-op
+ * 
+ * @author Austin <austin@copperhighway.org>
+ * @version 1.0
+ * @date 2017.01.21
  */
 
 class Filter
