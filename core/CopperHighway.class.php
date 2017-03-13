@@ -200,28 +200,32 @@ class CopperHighway
                 break;
             }
 
-            if ( !empty($p["password"]) && !empty($p["password-repeat"]) && $p["password"] == $p["password-repeat"] ) {
-
-                $username = Session::get("USERNAME");
-
-                if ( EasyRSA::certWizard($username, $p["password"]) ) {
-
-                    $path = rtrim(Config::getField("CH_ROOT"), "/");
-                    shell_exec("cd $path/ovpn/ && $path/ovpn/make_unified.sh " . $username);
-                    $conf_path = "$path/ovpn/" . $username . ".ovpn";
-                    DatabaseFactory::quickQuery("UPDATE users SET conf_path='$conf_path' WHERE username='$username'");
-                    Session::set("FEEDBACK", "Certificate and configuration file generated!");
-                    Log::write($username, "certWizard: certificate and conf file created for $username", "NOTICE");
-                    $this->view->render("userhome");
-
-                } else {
-                    Session::set("FEEDBACK", "Couldn't generate your certificate or configuration file.  Try again later.");
-                    $this->view->render("userhome");
-                }
-                
-            } else {
-                Log::write(Session::get("USERNAME"), "Create certificate failed: passwords were empty or did not match", "NOTICE");
+            if ( empty($p["password"]) || empty($p["password-repeat"]) || $p["password"] != $p["password-repeat"] ) {
                 Session::set("FEEDBACK", "Your passwords did not match.");
+                $this->view->render("userhome");
+                break;
+            }
+
+            if ( preg_match('/\s/', $p["password"]) ) {
+                Session::set("FEEDBACK", "Passwords cannot contain spaces.");
+                $this->view->render("userhome");
+                break;
+            }
+
+            $username = Session::get("USERNAME");
+
+            if ( EasyRSA::certWizard($username, $p["password"]) ) {
+
+                $path = rtrim(Config::getField("CH_ROOT"), "/");
+                shell_exec("cd $path/ovpn/ && $path/ovpn/make_unified.sh " . $username);
+                $conf_path = "$path/ovpn/" . $username . ".ovpn";
+                DatabaseFactory::quickQuery("UPDATE users SET conf_path='$conf_path' WHERE username='$username'");
+                Session::set("FEEDBACK", "Certificate and configuration file generated!");
+                Log::write($username, "certWizard: certificate and conf file created for $username", "NOTICE");
+                $this->view->render("userhome");
+
+            } else {
+                Session::set("FEEDBACK", "Couldn't generate your certificate or configuration file.  Try again later.");
                 $this->view->render("userhome");
             }
             

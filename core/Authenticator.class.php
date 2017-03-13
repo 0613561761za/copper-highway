@@ -270,7 +270,8 @@ class Authenticator
             $randomPassword .= $characters[mt_rand(0, strlen($characters)-1)];
         }
         return $randomPassword;
-    }
+    }    
+
 }
 
 /* EOF */

@@ -15,7 +15,15 @@ spl_autoload_register(function($class) {
 });
 
 class easyRSA
-{   
+{
+    /**
+     * Creates a private and public key for the specific user, encrypting
+     * the private key with the supplied password
+     *
+     * @param $username the username to use (will also be the Common Name (CN) of the cert)
+     * @param $password password to encrypt the private key with
+     * @return true on success, false on failure
+     */
     public static function certWizard($username, $password)
     {
         $path = rtrim(Config::getField('EASY_RSA_PATH'), '/');
@@ -77,6 +85,12 @@ class easyRSA
         }
     }
 
+    /**
+     * Revokes a user's certificate and updates the Certificate Revocation List (CRL)
+     *
+     * @param $username the username of the user
+     * @return true if everything succeeds, false otherwise
+     */
     public static function revoke($username)
     {
         $path = rtrim(Config::getField('EASY_RSA_PATH'), '/');
