@@ -346,33 +346,40 @@ class CopperHighway
 
         case "forgot-password":
 
-            $username = $p["username"];
+            if ( empty($p["email"]) ) {
+                Session::set('FEEDBACK', "You must enter an e-mail address.");
+                $this->view->render("forgot-password");
+                break;
+            }
+            
             $email = $p["email"];
             $temporary_password = Authenticator::randomPassword(12);
             $password_hash = password_hash($temporary_password, PASSWORD_DEFAULT);
             $temporary_password_expiration = (int) time() + 3600; /* 1 hour */
-            $sql = "UPDATE users SET password_hash='$password_hash', temporary_password_expiration='$temporary_password_expiration', temporary_password='$temporary_password' WHERE username='$username' AND email='$email'";
+            $sql = "UPDATE users SET password_hash='$password_hash', temporary_password_expiration='$temporary_password_expiration', temporary_password='$temporary_password' WHERE email='$email'";
             
-            if ( Authenticator::checkUserExists($username, $email, TRUE) ) {
+            if ( Authenticator::checkUserExists("null", $email) ) {
 
                 if ( DatabaseFactory::quickQuery($sql) ) {
 
+                    $username = Authenticator::getUsernameFromEmail($email);
+                    if ( $username == FALSE ) $username = ""; 
                     Mail::temporaryPassword($email, $username, $temporary_password);
-                    Log::write(Session::get("USERNAME"), "Password reset successfully for $username ($email)", "NOTICE");
-                    Session::set("FEEDBACK", "Password reset&mdash;check your e-mail.");
+                    Log::write(Session::get("USERNAME"), "Password reset successfully for $email", "NOTICE");
+                    Session::set("FEEDBACK", "Password reset for $email if it exists&mdash;check your e-mail.");
                     $this->view->render("forgot-password");
 
                 } else {
 
-                    Log::write(Session::get("USERNAME"), "Password could not be reset for $username ($email): database could not be written to.", "ERROR");
+                    Log::write(Session::get("USERNAME"), "Password could not be reset for $email: database could not be written to.", "ERROR");
                     Session::set("FEEDBACK", "Your password could not be reset because of a system error.  Try again later.");
                     $this->view->render("forgot-password");
                 }
                 
             } else {
                 
-                Log::write(Session::get("USERNAME"), "Password could not be reset for $username ($email):  does not exist.", "ERROR");
-                Session::set("FEEDBACK", "That username and e-mail combination doesn't exists.");
+                Log::write(Session::get("USERNAME"), "Password could not be reset for $email:  does not exist.", "SECURITY");
+                Session::set("FEEDBACK", "Password reset for $email if it exists&mdash;check your e-mail.");
                 $this->view->render("forgot-password");
             }
             

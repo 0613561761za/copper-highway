@@ -230,6 +230,28 @@ class Authenticator
     }
 
     /**
+     * Get the username associated with an e-mail address
+     *
+     * @param $email the email address to look for
+     * @return the username on success, FALSE if the email is not associated with a username
+     */
+    public static function getUsernameFromEmail($email)
+    {
+        $db = DatabaseFactory::getFactory()->getConnection();
+        $sql = "SELECT username FROM users WHERE email=:email LIMIT 1";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ( isset($result["username"]) ) {
+            return $result["username"];
+        } else {
+            return FALSE;
+        }
+    }
+
+    /**
      * @static Authenticator::checkUserExists check if a user exists or not
      *
      * @param string $username the username to check
