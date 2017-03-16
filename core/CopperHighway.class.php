@@ -62,14 +62,6 @@ class CopperHighway
             case "about":
                 $this->view->render("about");
                 break;
-
-            case "contribute":
-                if ( Authenticator::loggedIn() ) {
-                    $this->view->render("contribute");
-                } else {
-                    $this->view->render("home");
-                }
-                break;
                 
             case "getting-started":
                 if ( Authenticator::loggedIn() ) {

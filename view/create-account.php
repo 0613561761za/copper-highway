@@ -1,8 +1,6 @@
 <div class="content center">
     <h3>Create an Account</h3>
-    
-    <p class="left note">Please use your real name&mdash;we'll use it to validate you.  Enter an e-mail address that you can access quickly, as you'll need it if you forget your password. <span class="italic">Do not use a work e-mail address.</span>  Your username will be used to generate your VPN client certificate, so choose something that doesn't personally identify you.</p>
-    
+
     <form name="create-account" action="<?= $_SERVER["PHP_SELF"]; ?>" method="POST">
 	<input type="text" name="first-name" placeholder="First Name" autofocus required><br />
 	<input type="text" name="last-name" placeholder="Last Name" autofocus required><br />
