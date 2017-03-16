@@ -78,7 +78,7 @@ class UserHome
         } else if ( preg_match('/mac/i', $u) && !preg_match('/iphone|ipod|ipad/i', $u) ) {
             return 'Download <a href="https://tunnelblick.net/downloads.html" target="_blank">OpenVPN for OSX <img src="images/new_window.png"></a>';
         } else if ( preg_match('/linux|ubuntu/i', $u) && !preg_match('/android/i', $u) && !preg_match('/tizen/i', $u) ) {
-            return 'Run <code>sudo apt install network-manager-openvpn</code> <span class="italic">or</span> search <a href="https://www.google.com/#q=OpenVPN+client+linux" target="_blank">Google: OpenVPN client linux <img src="images/new_window.png"></a>';
+            return 'Run <code class="inline">sudo apt install network-manager-openvpn</code>';
         } else if ( preg_match('/iphone|ipod|ipad/i', $u) ) {
             return 'Download <a href="https://itunes.apple.com/us/app/openvpn-connect/id590379981?mt=8" target="_blank">OpenVPN for iOS <img src="images/new_window.png"></a>';
         } else if ( preg_match('/android/i', $u) ) {

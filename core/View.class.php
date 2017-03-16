@@ -18,6 +18,21 @@ class View
 {
     public function render($page)
     {
+
+        switch ( $page ) {
+        case 'home':
+            Session::set('active_page', 'home');
+            break;
+
+        case 'about':
+            Session::set('active_page', 'about');
+            break;
+
+        default:
+            Session::set('active_page', 'account');
+            break;
+        }
+
         require_once __DIR__ . "/../view/header.php";
 
         if ( is_array($page) ) {

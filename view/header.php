@@ -10,18 +10,27 @@
     <body>
 	<div id="top-nav">
 	    <div id="logo">
-		<div id="title" class="bold">Copper Highway</div>
+		<div id="title" class="bold">
+		    Copper Highway
+		</div>
 	    </div>
 	    <div id="navigation">
-		<span id="home"><img src="images/home.png"><a href="index.php">Home</a></span>
-		<span id="about"><img src="images/info.png"><a href="index.php?about">About</a></span>
-
-		<?php if ( Authenticator::loggedIn() ) { ?>
-		    <span id="contribute"><img src="images/git.png"><a href="index.php?contribute">Contribute</a></span>
-		<?php } ?>
-
-                <span id="account"><img src="images/shield.png"><a href="index.php?account"><?= Authenticator::loggedIn() ? "Dashboard" : "Login" ?></a></span>
+		<span id="home">
+		    <a href="index.php" class="<?= Session::get('active_page') == "home" ? "active" : ""; ?>">
+			HOME
+		    </a>
+		</span>
+		<span id="about">
+		    <a href="index.php?about" class="<?= Session::get('active_page') == "about" ? "active" : ""; ?>">
+			ABOUT
+		    </a>
+		</span>
+		<span id="account">
+		    <a href="index.php?account" class="<?= Session::get('active_page') == "account" ? "active" : ""; ?>">
+			<?= Authenticator::loggedIn() ? "DASHBOARD" : "LOGIN" ?>
+		    </a>
+		</span>
 	    </div>
 	</div>
-    <div id="feedback"><?= Session::get('FEEDBACK') ? Session::get('FEEDBACK') : "" ?></div>
-
+	<div id="feedback"><?= Session::get('FEEDBACK') ? Session::get('FEEDBACK') : "" ?></div>
+	
