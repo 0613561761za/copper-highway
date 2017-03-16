@@ -171,6 +171,21 @@ a:hover {text-decoration: underline;}
 
 a:visited {color: #5b9aff;}
 
+form#paypal {
+    display: inline-block;
+}
+
+form#paypal input {
+    background-color: rgba(0,0,0,0);
+    border:none;
+    display:inline;
+    vertical-align:middle;
+}
+
+form#paypal input[type="image"] {
+    height: 25px;
+}
+
 input, select {
     -webkit-appearance: none;
     -moz-appearance: none;
