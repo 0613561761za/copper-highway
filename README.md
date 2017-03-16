@@ -5,7 +5,7 @@ Copper Highway is an invite-only VPN service that uses this web application inte
 
 *This is just the web application interface*.  The actual VPN is an OpenVPN Server instance, configured specifically to work with the web application.
 
-![Screenshot](https://github.com/insdavm/copper-highway/raw/master/public/images/screenshot.png)
+![Screenshot](https://github.com/insdavm/copper-highway/raw/ui-update2/public/images/screenshot.png)
 
 ### Requirements
 * OpenVPN Server
