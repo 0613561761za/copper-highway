@@ -231,6 +231,7 @@ div#top-nav a {
     border-top: 2px solid transparent;
     font: 500 0.9rem/44px Roboto,sans-serif;
     color: rgba(255, 255, 255, .7);
+    outline: 0;
 }
 
 div#top-nav a:hover {
