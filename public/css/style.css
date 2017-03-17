@@ -353,7 +353,7 @@ code, code.block, code.inline {
     padding: 5px;
 }
 
-div#admin {
+div#admin, div#log {
     width: 90%;
     margin: 25px auto;
     padding: 10px;
@@ -375,3 +375,18 @@ table#admin thead tr {
     color: #FEFEFE;
     text-align: left;
 }
+
+div#log table {
+    font-size: 0.8rem;
+    border-spacing: 0;
+    width: 100%
+}
+
+div#log table thead {
+    cursor: pointer;
+    background-color: #DDD;
+}
+
+div#log table tbody tr:hover {background-color: #EEE;}
+div#log table tbody tr td {padding: 0px 5px;}
+div#log abbr {cursor: help}

@@ -49,23 +49,7 @@ $all_messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
     <script src="js/sorttable.js"></script>
-    <style type="text/css">
-     table {
-       font-size: 0.8rem;
-       border-spacing: 0;
-       width: 100%
-     }
-
-     table thead {
-       cursor: pointer;
-       background-color: #DDD;
-     }
-
-     table tbody tr:hover {background-color: #EEE;}
-     table tbody tr td {padding: 0px 5px;}
-     abbr {cursor: help}
-    </style>
-    <div id="admin">
+    <div id="log">
       <h1>Log Messages</h1>
       <h3>You are logged in as <em><?= Session::get("USERNAME"); ?></em>.</h3>
       <table class="sortable">
