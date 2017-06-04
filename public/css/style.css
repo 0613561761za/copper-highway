@@ -281,15 +281,15 @@ div#homepage-splash {
 }
 
 div#homepage-splash img {
-    height: 32px;
+    height: 26px;
     padding: 0px 5%;
 }
 
 div.platforms {
     display: inline-block;
     text-align: center;
-    width: 70px;
-    font: 300 16px Roboto,sans-serif;
+    width: 56px;
+    font: 300 12px Roboto,sans-serif;
     color: #757575;
 }
 
