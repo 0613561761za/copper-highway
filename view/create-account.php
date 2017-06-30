@@ -4,7 +4,7 @@
     <form name="create-account" action="<?= $_SERVER["PHP_SELF"]; ?>" method="POST">
 	<input type="text" name="first-name" placeholder="First Name" autofocus required><br />
 	<input type="text" name="last-name" placeholder="Last Name" autofocus required><br />
-	<input type="text" name="username" placeholder="Username" required><br />
+	<input type="text" name="username" placeholder="Username" pattern="[^' ']+" title="Usernames cannot contain spaces." required><br />
 	<input type="email" name="email" placeholder="your@email.com" required><br />
 	<input type="password" name="password" placeholder="Password" required><br />
 	<input type="password" name="password-repeat" placeholder="Password (confirm)" required><br />
