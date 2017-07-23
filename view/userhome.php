@@ -1,5 +1,17 @@
 
 <?php if ( @!$d ) { $d = new UserHome(); } ?>
+
+<!-- Help keep CopperHighway running! -->
+<div id="modal-blur">
+    <div id="modal">
+	<div id="modal-text">
+	    <p>CopperHighway cost <span class="bold">$40.80</span> to operate last month.  To date, we've received <span class="bold">$0.00</span> in donations.  If this service is useful to you, please consider donating some beer money to help keep it running!</p>
+	    <a href="#" id="close-button" onClick="closeModal();">X</a>
+	</div>
+    </div>
+</div>
+<!-- /Help keep CopperHighway running! -->
+
 <div class="content">
     <h3 class="gray">Welcome back, <?= $d->username ?>!</h3>
     <div class="subnav">

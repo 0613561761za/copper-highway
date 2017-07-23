@@ -3,7 +3,9 @@
     <head>
 	<title>Copper Highway</title>
 	<link rel="icon" href="images/favicon.ico" type="image/x-icon">
-	<link rel="stylesheet"  href="css/style.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/modal.css">
+	<script src="js/modal.js" type="text/javascript"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta charset="utf-8">
     </head>

@@ -1,0 +1,59 @@
+/**
+ * Begin modal styling
+ *
+ * @date 2017.07.19
+ */
+
+#modal-blur {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255,.70);
+    z-index: 1;
+    text-align: center;
+}
+
+#modal {
+    box-sizing: border-box;
+    font-family: "Trebuchet MS", sans-serif;
+    font-size: 0.8rem;
+    padding: 20px;
+    background-color: #F6F7F8;
+    border: 1px solid #000;
+    border-radius: 5px;
+    display: inline-block;
+    box-shadow: 2px 2px 5px #333;
+    position: relative;
+    max-height: 300px;
+    max-width: 500px;
+    top: calc(30% - 100px);
+    margin-left: 5px;
+    margin-right: 5px;
+    overflow-y: auto;
+}
+
+#close-button, #close-button:visited {
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-decoration: none;
+    border: 1px solid #333;
+    border-radius: 1px;
+    padding: 0px 10px;
+    background-color: #333;
+    color: #FEFEFE;
+    font-weight: 600;
+}
+
+#close-button:hover, #close-button:active {
+    text-shadow: 2px 2px 3px #333;
+}
+
+#modal-text {
+    padding-top: 20px;
+}
+
+
+/* End modal styling */
+
+
